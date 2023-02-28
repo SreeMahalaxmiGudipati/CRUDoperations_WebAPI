@@ -78,7 +78,9 @@ namespace LoginAPIwithEF.Controllers
         [HttpPost("CreateUser")]
         public IActionResult Create()
         {
-            return Ok("Success from Create Method");
+            _context.Students.Add(student);
+            await _context.SaveChangesAsync();
+            return Ok("Success");
         }
 
         // POST: api/Students
