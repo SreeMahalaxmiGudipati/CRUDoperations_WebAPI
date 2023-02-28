@@ -76,10 +76,10 @@ namespace LoginAPIwithEF.Controllers
         }
 
         [HttpPost("CreateUser")]
-        public IActionResult Create()
+        public IActionResult Create(Student student)
         {
             _context.Students.Add(student);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
             return Ok("Success");
         }
 
