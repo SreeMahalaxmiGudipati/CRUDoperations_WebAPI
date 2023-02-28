@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LoginAPIwithEF.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace LoginAPIwithEF.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class StudentsController : ControllerBase
     {
         private readonly APIDbContext _context;
@@ -71,6 +73,12 @@ namespace LoginAPIwithEF.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost("CreateUser")]
+        public IActionResult Create()
+        {
+            return Ok("Success from Create Method");
         }
 
         // POST: api/Students
