@@ -44,6 +44,20 @@ namespace LoginAPIwithEF.Controllers
             return student;
         }
 
+        // GET: api/Students/Name
+        [HttpGet("{Name}")]
+        public async Task<ActionResult<Student>> GetStudent(string Name)
+        {
+            var student = await _context.Students.FindAsync(Name);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return student;
+        }
+
         // PUT: api/Students/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -78,8 +92,7 @@ namespace LoginAPIwithEF.Controllers
         [HttpPost("CreateUser")]
         public IActionResult Create(Student student)
         {
-            _context.Students.Add(student);
-            _context.SaveChangesAsync();
+            
             return Ok("Success");
         }
 
