@@ -16,46 +16,49 @@ namespace LoginAPIwithEF.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly APIDbContext _context;
-
+        private readonly ILogger<StudentsController> _logger;
         //controller constructor
-        public StudentsController(APIDbContext context)
+        public StudentsController(APIDbContext context, ILogger<StudentsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
-
+       
         // GET: api/Students
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
-            return await _context.Students.ToListAsync();
+            try {
+                return await _context.Students.ToListAsync();
+            }
+           
+             catch (Exception ex)
+             {
+                _logger.LogError(ex, "An error occurred while getting all samples");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while getting all samples. Please try again later.");
+            }
         }
 
         // GET: api/Students/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
-            var student = await _context.Students.FindAsync(id);
+            try {
+                var student = await _context.Students.FindAsync(id);
 
-            if (student == null)
-            {
-                return NotFound();
+                if (student == null)
+                {
+                    return NotFound();
+                }
+
+                return student;
             }
-
-            return student;
-        }
-
-        // GET: api/Students/Name
-        [HttpGet("{Name}")]
-        public async Task<ActionResult<Student>> GetStudent(string Name)
-        {
-            var student = await _context.Students.FindAsync(Name);
-
-            if (student == null)
+            
+            catch (Exception ex)
             {
-                return NotFound();
+                _logger.LogError(ex, $"An error occurred while getting sample with ID {id}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while getting sample with ID {id}. Please try again later.");
             }
-
-            return student;
         }
 
         // PUT: api/Students/5
