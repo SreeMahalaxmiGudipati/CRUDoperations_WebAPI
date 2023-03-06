@@ -61,6 +61,30 @@ namespace LoginAPIwithEF.Controllers
             }
         }
 
+        // GET: api/Students/name
+        [HttpGet("{name}")]
+        public async Task<ActionResult<Student>> GetStudent(string name)
+        {
+            try
+            {
+                var student = await _context.Students.FindAsync(name);
+
+                if (student == null)
+                {
+                    return NotFound();
+                }
+
+                return student;
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while getting sample with ID {name}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while getting sample with ID {name}. Please try again later.");
+            }
+        }
+
+
         // PUT: api/Students/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
