@@ -108,10 +108,10 @@ namespace LoginAPIwithEF.Controllers
         }
 
 
-        [HttpPost]
-        [Route("api/login")]
-        public async Task<IActionResult> Login([FromBody] Student student)
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] Student student)
         {
+
             if (student == null)
             {
                 return BadRequest();
