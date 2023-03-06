@@ -62,7 +62,7 @@ namespace LoginAPIwithEF.Controllers
         }
 
         // GET: api/Students/name
-        [HttpGet("{name}")]
+   /*     [HttpGet("{name}")]
         public async Task<ActionResult<Student>> GetStudent(string name)
         {
             try
@@ -79,10 +79,10 @@ namespace LoginAPIwithEF.Controllers
 
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while getting sample with ID {name}");
-                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while getting sample with ID {name}. Please try again later.");
+                _logger.LogError(ex, $"An error occurred while getting sample with name {name}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while getting sample with name {name}. Please try again later.");
             }
-        }
+        }*/
 
 
         // PUT: api/Students/5
