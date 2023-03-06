@@ -62,27 +62,7 @@ namespace LoginAPIwithEF.Controllers
         }
 
         // GET: api/Students/name
-   /*     [HttpGet("{name}")]
-        public async Task<ActionResult<Student>> GetStudent(string name)
-        {
-            try
-            {
-                var student = await _context.Students.FindAsync(name);
-
-                if (student == null)
-                {
-                    return NotFound();
-                }
-
-                return student;
-            }
-
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"An error occurred while getting sample with name {name}");
-                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while getting sample with name {name}. Please try again later.");
-            }
-        }*/
+   
 
 
         // PUT: api/Students/5
@@ -116,13 +96,6 @@ namespace LoginAPIwithEF.Controllers
             return NoContent();
         }
 
-        [HttpPost("CreateUser")]
-        public IActionResult Create(Student student)
-        {
-            
-            return Ok("Success");
-        }
-
         // POST: api/Students
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -132,6 +105,25 @@ namespace LoginAPIwithEF.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetStudent", new { id = student.Id }, student);
+        }
+
+
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] Student student)
+        {
+            if (student == null)
+            {
+                return BadRequest();
+            }
+            var user = await _context.Students.FirstOrDefaultAsync(x=>x.Name==student.Name && x.Password==student.Password);
+            if (user == null)
+            {
+                return NotFound(new { Message = "User Not Found!" });
+            }
+            return Ok(new
+            {
+                Message = "Login Success"
+            });
         }
 
         // DELETE: api/Students/5
