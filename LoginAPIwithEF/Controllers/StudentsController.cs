@@ -96,6 +96,21 @@ namespace LoginAPIwithEF.Controllers
             return NoContent();
         }
 
+        [HttpGet("find")]
+        public IActionResult Find(string username, string password)
+        {
+            var student = _context.Students.FirstOrDefault(s => s.Name == username && s.Password == password);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(student);
+            }
+        }
+
+
         // POST: api/Students
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
