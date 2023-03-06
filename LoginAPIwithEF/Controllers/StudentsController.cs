@@ -108,8 +108,9 @@ namespace LoginAPIwithEF.Controllers
         }
 
 
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] Student student)
+        [HttpPost]
+        [Route("api/login")]
+        public async Task<IActionResult> Login([FromBody] Student student)
         {
             if (student == null)
             {
@@ -118,12 +119,11 @@ namespace LoginAPIwithEF.Controllers
             var user = await _context.Students.FirstOrDefaultAsync(x=>x.Name==student.Name && x.Password==student.Password);
             if (user == null)
             {
-                return NotFound(new { Message = "User Not Found!" });
+                // return NotFound(new { Message = "User Not Found!" });
+                return Ok(new { isAuthenticated = false });
+
             }
-            return Ok(new
-            {
-                Message = "Login Success"
-            });
+            return Ok(new { isAuthenticated = true });
         }
 
         // DELETE: api/Students/5
